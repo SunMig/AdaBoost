@@ -5,7 +5,7 @@ def loadSimpData():
     dataMat=matrix([[1.,2.1],[2.,1.1],[1.3,1.],[1.,1.],[2.,1.]])
     classlabels=[1,1,-1,-1,1]
     return  dataMat,classlabels
-#算法训练过程
+#算法训练过程,返回的是弱分类器数组
 def adaBoostTrains(dataArr,classLables,numIt=40):
     weakClassArr=[]
     m=shape(dataArr)[0]
@@ -31,11 +31,11 @@ def adaBoostTrains(dataArr,classLables,numIt=40):
         print("total error: "+str(errorRote))
         if errorRote==0.0:break
     return weakClassArr
-
+#这里是AdaBoost算法的实现，输入分类数据和弱分类数组，对弱分类器进行加权求和
 def adaClassify(datToClass,classifierArr):
     dataMatrix=mat(datToClass)
     m=shape(dataMatrix)[0]
-    aggClassEst=mat(zeros((m,1)))
+    aggClassEst=mat(zeros((m,1))) #每个数据点的类别估计累计值
     for i in range(len(classifierArr)):
         classEst=stumpClassify(dataMatrix,classifierArr[i]['dim'],classifierArr[i]['thresh'],classifierArr[i]['ineq'])
         aggClassEst+=classifierArr[i]['alpha']*classEst
